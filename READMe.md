@@ -1,4 +1,4 @@
-# BOOKSELF API Backend
+# BOOKSHELF API BACKEND
 
 ## Getting Started
 
