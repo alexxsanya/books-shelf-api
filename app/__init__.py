@@ -8,12 +8,6 @@ from models import setup_db, Book
 
 BOOKS_PER_SHELF = 8
 
-# @TODO: General Instructions
-#   - As you're creating endpoints, define them and then search for 'TODO' within the frontend to update the endpoints there. 
-#     If you do not update the endpoints, the lab will not work - of no fault of your API code! 
-#   - Make sure for each route that you're thinking through when to abort and with which kind of error 
-#   - If you change any of the response body keys, make sure you update the frontend to correspond. 
-
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
@@ -77,11 +71,25 @@ def create_app(test_config=None):
     except:
         abort(404)
 
-  # @TODO: Write a route that create a new book. 
-  #        Response body keys: 'success', 'created'(id of created book), 'books' and 'total_books'
-  # TEST: When completed, you will be able to a new book using the form. Try doing so from the last page of books. 
-  #       Your new book should show up immediately after you submit it at the end of the page. 
-  
+  @app.route('/books', methods=['POST'])
+  def add_book():
+    try:
+      data = request.get_json()
+      rating = int(data.get('rating', None))
+      author = data.get('author', None)
+      title = data.get('title', None)
+
+      book = Book(title=title,author=author, rating=rating)
+      book.insert()
+        
+      return jsonify({
+        'success': True,
+        'status': 201,
+        'created': book.id
+      })
+    except:
+      abort(400)
+
   return app
 
 if __name__ == '__main__':
