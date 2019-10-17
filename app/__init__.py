@@ -45,8 +45,8 @@ def create_app(test_config=None):
 
   @app.route('/books/<int:book_id>', methods=['PATCH'])
   def update_book_rating(book_id):
-    rating = request.get_json()['rating']
     try:
+        rating = request.get_json()['rating']
         book = Book.query.get(book_id)
         book.rating = rating
         book.update()
