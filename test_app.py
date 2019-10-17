@@ -57,7 +57,6 @@ class BookTestCase(unittest.TestCase):
         rs = self.client.post('/books', json = self.new_book)
         book = json.loads(rs.data)
         book_id = book['created'] #id of the book to be deleted
-        print(book_id)
 
         res = self.client.delete(f'/books/{book_id}')
         data = json.loads(res.data)
@@ -80,6 +79,22 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Resource Not Found')
         self.assertEqual(book, None)
+
+    def test_add_book(self):
+        res = self.client.post('/books', json = self.new_book)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['created'])
+
+    def test_405_if_method_not_allowed(self):
+        res = self.client.post('/books/2334', json = self.new_book)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Method Not Allowed')    
 
 if __name__ == '__main__':
     unittest.main()
