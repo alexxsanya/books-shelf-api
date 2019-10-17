@@ -43,5 +43,14 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(data['updated'], 5)
         self.assertEqual(book.rating, 12)
 
+    def test_422_occur_when_updating_inexistent_book(self):
+        book_id = 5000000
+        res = self.client.patch(f'/books/{book_id}', json={'rating': 12})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Request Not Processed')
+
 if __name__ == '__main__':
     unittest.main()
