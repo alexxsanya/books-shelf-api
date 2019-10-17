@@ -40,7 +40,7 @@ def create_app(test_config=None):
             'success': True,
             'books': f_books,
             'count': len(f_books)
-        })
+        }), 200
 
 
   @app.route('/books/<int:book_id>', methods=['PATCH'])
@@ -54,7 +54,7 @@ def create_app(test_config=None):
         'success': True,
         'status': 200,
         'updated': book_id
-        })
+        }), 200
     except:
         abort(422)
 
@@ -67,7 +67,7 @@ def create_app(test_config=None):
         'success': True,
         'status': 200,
         'deleted': book.id
-        })
+        }), 200
     except:
         abort(404)
 
@@ -86,7 +86,7 @@ def create_app(test_config=None):
         'success': True,
         'status': 201,
         'created': book.id
-      })
+      }), 201
     except:
       abort(400)
 
