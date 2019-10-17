@@ -43,7 +43,7 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(data['updated'], 5)
         self.assertEqual(book.rating, 12)
 
-    def test_422_occur_when_updating_inexistent_book(self):
+    def test_422_unprocessed_book_update(self):
         book_id = 5000000
         res = self.client.patch(f'/books/{book_id}', json={'rating': 12})
         data = json.loads(res.data)
@@ -51,6 +51,35 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Request Not Processed')
+
+    def test_delete_book(self):
+        #first create a book to delete
+        rs = self.client.post('/books', json = self.new_book)
+        book = json.loads(rs.data)
+        book_id = book['created'] #id of the book to be deleted
+        print(book_id)
+
+        res = self.client.delete(f'/books/{book_id}')
+        data = json.loads(res.data)
+
+        book = Book.query.filter(Book.id == book_id).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], book_id)
+        self.assertEqual(book, None)
+
+    def test_404_if_book_doesnt_exist(self):
+        book_id = 69234
+        res = self.client.delete(f'/books/{book_id}')
+        data = json.loads(res.data)
+
+        book = Book.query.filter(Book.id == book_id).one_or_none()
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Resource Not Found')
+        self.assertEqual(book, None)
 
 if __name__ == '__main__':
     unittest.main()
