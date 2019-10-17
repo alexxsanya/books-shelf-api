@@ -73,20 +73,33 @@ def create_app(test_config=None):
 
   @app.route('/books', methods=['POST'])
   def add_book():
-    try:
-      data = request.get_json()
-      rating = int(data.get('rating', None))
-      author = data.get('author', None)
-      title = data.get('title', None)
+    data = request.get_json()
+    rating = data.get('rating', None)
+    author = data.get('author', None)
+    title = data.get('title', None)
+    search = data.get('search', None)
 
-      book = Book(title=title,author=author, rating=rating)
-      book.insert()
-        
-      return jsonify({
-        'success': True,
-        'status': 201,
-        'created': book.id
-      }), 201
+    try:
+      if search:
+        results = Book.query.order_by(Book.id).filter(Book.title.ilike(f'%{search}%'))
+        f_books = books_pagination(request, results)
+
+        return jsonify({
+            'success': True,
+            'books': f_books,
+            'searched': search,
+            'total_books': len(f_books)
+        }), 200
+
+      else:
+        book = Book(title=title,author=author, rating=int(rating))
+        book.insert()
+          
+        return jsonify({
+          'success': True,
+          'status': 201,
+          'created': book.id
+        }), 201
     except:
       abort(400)
 
