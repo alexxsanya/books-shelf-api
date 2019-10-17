@@ -87,6 +87,7 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
+        self.assertTrue(data['book'])
 
     def test_405_if_method_not_allowed(self):
         res = self.client.post('/books/2334', json = self.new_book)

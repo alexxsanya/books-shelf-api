@@ -98,6 +98,7 @@ def create_app(test_config=None):
         return jsonify({
           'success': True,
           'status': 201,
+          'book': book.format(),
           'created': book.id
         }), 201
     except:
