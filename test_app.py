@@ -32,5 +32,16 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True )
         self.assertLess(len(data), 8)
 
+    def test_update_book_rating(self):
+        book_id = 5
+        res = self.client.patch(f'/books/{book_id}', json={'rating': 12})
+        data = json.loads(res.data)
+        book = Book.query.get(book_id)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['updated'], 5)
+        self.assertEqual(book.rating, 12)
+
 if __name__ == '__main__':
     unittest.main()
