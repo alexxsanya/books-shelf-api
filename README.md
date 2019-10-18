@@ -1,4 +1,4 @@
-# BOOKSHELF API BACKEND
+# Great Bookshelf API Documentation
 
 ## API Reference
 
@@ -123,3 +123,6 @@ The API will return three error types when requests fail:
   "success": true
 }
 ```
+
+## Project Documentation Reference
+Check the [Project Documentation]('./PROJECTDOC.md') here
