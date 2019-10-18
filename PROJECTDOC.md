@@ -91,7 +91,7 @@ Run the back-end with the scripts below
 
 ## API Reference
 
-Check the [README.md]('./README.md') file
+Check the [README.md](README.md) file
 
 ## Authors
 

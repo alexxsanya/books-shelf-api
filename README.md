@@ -125,4 +125,4 @@ The API will return three error types when requests fail:
 ```
 
 ## Project Documentation Reference
-Check the [Project Documentation]('./PROJECTDOC.md') here
+Check the [Project Documentation](PROJECTDOC.md) here
