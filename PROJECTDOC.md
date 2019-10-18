@@ -91,8 +91,7 @@ Run the back-end with the scripts below
 
 ## API Reference
 
-    Check the API README.md
-    Check the [README.md]('./README.md')
+Check the [README.md]('./README.md') file
 
 ## Authors
 
